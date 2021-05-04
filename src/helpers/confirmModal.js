@@ -1,6 +1,7 @@
 import {confirmAlert} from "react-confirm-alert";
 import ConfirmButton from "../components/UI/ConfirmModal/ConfirmButton";
 import React from "react";
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 export function confirmModal(title, text, handleYes, id) {
     confirmAlert({

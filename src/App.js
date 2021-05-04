@@ -6,10 +6,7 @@ import Header from "./components/Header/Header";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Welcome from "./pages/Welcome/Welcome";
 import MyProposals from "./pages/Auth/Dashboard/MyProposals/MyProposals";
-import SubmitProposal from "./pages/Auth/Dashboard/SubmitProposal/SubmitProposal";
 import AllAcceptedProposals from "./pages/Auth/Dashboard/AllAcceptedProposal/AllAcceptedProposals";
-import ListProposals from "./pages/Auth/Dashboard/ListProposls/ListProposals";
-import ShowAllProposals from "./pages/Auth/Dashboard/ShowAllProposals/ShowAllProposals";
 import AuthenticatedRoute from "./hoc/AuthenticatedRoute";
 import AdminRoute from "./hoc/AdminRoute";
 import NotFound from "./pages/404/404";
@@ -33,27 +30,33 @@ import DeviceShow from "./pages/Auth/Admin/Devices/DeviceShow/DeviceShow";
 import DeviceAdd from "./pages/Auth/Admin/Devices/DeviceAdd/DeviceAdd";
 import DeviceEdit from "./pages/Auth/Admin/Devices/DeviceEdit/DeviceEdit";
 import FreeDayAdd from "./pages/Auth/Admin/FreeDays/FreeDayAdd/FreeDayAdd";
+import UserPanel from "./pages/Auth/Panel/UserPanel/UserPanel";
+import UserDetails from "./pages/Auth/Panel/UserDetails/UserDetails";
+import UserDetailsEdit from "./pages/Auth/Panel/UserDetails/UserDetailsEdit/UserDetailsEdit";
+import Register from "./pages/Register/Register";
+import MyProposalAdd from "./pages/Auth/Dashboard/MyProposals/MyProposalAdd/MyProposalAdd";
+import MyProposalEdit from "./pages/Auth/Dashboard/MyProposals/MyProposalEdit/MyProposalEdit";
+import MyProposalShow from "./pages/Auth/Dashboard/MyProposals/MyProposalShow/MyProposalShow";
 
 const Admin = lazy(() => import('./pages/Auth/Admin/Admin'));
+const ListProposals = lazy(() => import('./pages/Auth/Dashboard/ListProposls/ListProposals'));
+const ShowAllProposals = lazy(() => import('./pages/Auth/Dashboard/ShowAllProposals/ShowAllProposals'));
 
 const content = (
     <Suspense fallback={null}>
         <Switch>
-            <CanShowAllProposals exact path="/dashboard/proposals/list">
-                <ShowAllProposals />
-            </CanShowAllProposals>
-            <AuthenticatedRoute exact path="/dashboard/proposals/accepted">
-                <AllAcceptedProposals />
-            </AuthenticatedRoute>
-            <CanAcceptProposal exact path="/dashboard/proposals/accept">
-                <ListProposals />
-            </CanAcceptProposal>
-            <AuthenticatedRoute exact path="/dashboard/proposals/add">
-                <SubmitProposal />
-            </AuthenticatedRoute>
-            <AuthenticatedRoute exact path="/dashboard/proposals">
-                <MyProposals />
-            </AuthenticatedRoute>
+            <CanShowAllProposals exact path="/dashboard/proposals/list"  component={ShowAllProposals} />
+            <AuthenticatedRoute exact path="/dashboard/proposals/accepted" component={AllAcceptedProposals} />
+            <CanAcceptProposal exact path="/dashboard/proposals/accept" component={ListProposals} />
+
+            <AuthenticatedRoute exact path="/dashboard/proposals/add" component={MyProposalAdd} />
+            <AuthenticatedRoute exact path="/dashboard/proposals/:id" component={MyProposalShow} />
+            <AuthenticatedRoute exact path="/dashboard/proposals/edit/:id" component={MyProposalEdit} />
+            <AuthenticatedRoute exact path="/dashboard/proposals" component={MyProposals} />
+
+            <AuthenticatedRoute path="/dashboard/panel/details/edit" component={UserDetailsEdit} />
+            <AuthenticatedRoute path="/dashboard/panel/details" component={UserDetails} />
+            <AuthenticatedRoute path="/dashboard/panel" component={UserPanel} />
 
             <AdminRoute path="/admin/users/edit/:id" component={UsersEdit} />
             <AdminRoute path="/admin/users/accept/:id" component={UsersAccept} />
@@ -79,9 +82,8 @@ const content = (
             <AdminRoute path="/admin/freeDays/add" component={FreeDayAdd} />
 
             <AdminRoute path="/admin" component={Admin} />
-            <Route exact path="/">
-                <Welcome />
-            </Route>
+            <Route path="/register" component={Register} />
+            <Route exact path="/" component={Welcome} />
             <Route component={NotFound} />
         </Switch>
     </Suspense>

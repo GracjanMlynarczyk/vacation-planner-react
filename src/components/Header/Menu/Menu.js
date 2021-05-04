@@ -80,12 +80,12 @@ const Menu = function () {
                                         </a>
 
                                         <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                            <a className="dropdown-item" href="/#">
+                                            <Link to="/dashboard/panel" className="dropdown-item">
                                                 User panel
-                                            </a>
-                                            <a className="dropdown-item" href="/#">
+                                            </Link>
+                                            <Link to="/dashboard/panel/details" className="dropdown-item">
                                                 User details
-                                            </a>
+                                            </Link>
                                             <a onClick={logout} className="dropdown-item" href="/#">
                                                 Logout
                                             </a>
@@ -93,9 +93,14 @@ const Menu = function () {
                                     </li>
                                 </>
                             ) : (
-                                <li className="nav-item">
-                                    <a onClick={login} className="nav-link" href="/#">Login</a>
-                                </li>
+                                <>
+                                    <li className="nav-item">
+                                        <a onClick={login} className="nav-link" href="/#">Login</a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to="/register">Register</Link>
+                                    </li>
+                                </>
                             )
                         }
                     </ul>

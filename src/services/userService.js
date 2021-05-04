@@ -1,4 +1,5 @@
 import { generateData } from "../helpers/dev/devHelper";
+import axios from "../axios-instance";
 
 export const getUser = function(id) {
     return new Promise((resolve, reject) => {
@@ -67,6 +68,28 @@ export const deleteUser = function (id) {
 }
 
 export const acceptUser = function (id, data) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log(data)
+            resolve(true);
+        }, 700);
+    });
+}
+
+export const getUserDetails = function (email) {
+    return axios.get('/api/getUserDetails/' + email);
+}
+
+export const editUserDetails = function (data) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log(data)
+            resolve(true);
+        }, 700);
+    });
+}
+
+export const registerUser = function (data) {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             console.log(data)

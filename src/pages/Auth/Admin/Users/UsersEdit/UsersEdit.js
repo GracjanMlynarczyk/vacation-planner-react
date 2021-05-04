@@ -77,7 +77,7 @@ const UsersEdit = function () {
                                     createErrorNotifications('User', 'User cannot edit');
                                 });
                             }}>
-                            {({ errors, touched,isValid}) => (
+                            {({ errors, touched,isValid, dirty}) => (
                                 <Form>
                                     <div className="form-group row">
                                         <label htmlFor="firstName" className="col-md-4 col-form-label text-md-right">First name</label>
@@ -192,7 +192,7 @@ const UsersEdit = function () {
 
                                     <div className="form-group row mb-0">
                                         <div className="col-md-6 offset-md-4">
-                                            <button type="submit" disabled={!isValid} className="btn btn-primary">Update</button>
+                                            <button type="submit" disabled={!(isValid && dirty)} className="btn btn-primary">Update</button>
                                         </div>
                                     </div>
                                 </Form>

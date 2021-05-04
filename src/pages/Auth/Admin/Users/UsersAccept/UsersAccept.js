@@ -21,8 +21,7 @@ const UsersAccept = function () {
     });
 
     useEffect(() => {
-
-
+        dispatch({ type: 'start-loading'})
         getUser(id).then((response) => {
             setInitialValues({
                 holidays_days: response.position.holidays_days
@@ -78,7 +77,7 @@ const UsersAccept = function () {
                                 createErrorNotifications('User', 'User cannot accept');
                             })
                         }}>
-                        {({ errors, touched,isValid}) => (
+                        {({ errors, touched,isValid, dirty}) => (
                             <Form>
                                 <div className="form-group">
                                     <label htmlFor="holidays_days" className="col-form-label text-md-right">Holidays days per year</label>
@@ -93,7 +92,7 @@ const UsersAccept = function () {
                                 </div>
 
                                 <div className="form-group mb-0">
-                                    <button type="submit" disabled={!isValid} className="btn btn-primary">Accept</button>
+                                    <button type="submit" disabled={!(isValid && dirty)} className="btn btn-primary">Accept</button>
                                 </div>
                             </Form>
                         )}

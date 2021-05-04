@@ -21,7 +21,6 @@ const Departments = function () {
             dispatch({type: 'stop-loading'})
             createErrorNotifications("Department", "Department cannot delete")
         })
-
     }
 
     function deleteDepartmentConfirm(id) {
