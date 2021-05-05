@@ -52,7 +52,6 @@ const MyProposalForm = function (props) {
                                                                              errors.startDate && touched.startDate ? "is-invalid" : ""}`}
                                                                          required
                                                                          filterDate={isWeekday}
-                                                                         excludeDates={[disableCustomDt]}
                                                                          selectsStart
                                                                          startDate={values.startDate}
                                                                          endDate={values.endDate}/>
