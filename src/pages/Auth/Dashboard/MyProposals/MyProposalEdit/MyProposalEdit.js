@@ -4,7 +4,6 @@ import {useDispatch} from "react-redux";
 import {useHistory, useParams} from "react-router-dom";
 import {editProposal, getProposal} from "../../../../../services/proposalService";
 import MyProposalForm from "../components/MyProposalForm/MyProposalForm"
-import {addDepartment} from "../../../../../services/departmentService";
 
 const MyProposalEdit = function () {
 
@@ -60,7 +59,6 @@ const MyProposalEdit = function () {
             status={status}
             onSubmit={onSubmit}
             textButton="Edit"
-            edited={true}
         />
     );
 }

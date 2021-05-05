@@ -50,9 +50,7 @@ const MyProposalAdd = function () {
            initialValues={initialValues}
            status={status}
            onSubmit={onSubmit}
-           textButton="New"
-           edited={false}
-
+           textButton="Add"
        />
     );
 }

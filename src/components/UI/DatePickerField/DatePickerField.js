@@ -7,10 +7,7 @@ import "./style.css";
 export const DatePickerField = ({ ...props }) => {
     const { setFieldValue } = useFormikContext();
     const [field] = useField(props);
-    const isWeekday = date => {
-        const day = date.getDay();
-        return day !== 0 && day !== 6;
-    };
+
     return (
         <DatePicker
             {...field}
@@ -21,7 +18,6 @@ export const DatePickerField = ({ ...props }) => {
                 setFieldValue(field.name, val);
             }}
             dateFormat="yyyy-MM-dd"
-            filterDate={isWeekday}
         />
     );
 };

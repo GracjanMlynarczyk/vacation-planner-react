@@ -10,6 +10,11 @@ const MyProposalForm = function (props) {
         endDate: Yup.string().required('End date is required'),
         proposalTypeId: Yup.string().required('Proposal type is required'),
     });
+    const isWeekday = date => {
+        const day = date.getDay();
+        return day !== 0 && day !== 6;
+    };
+
 
     return (
         <div className="container">
@@ -47,10 +52,11 @@ const MyProposalForm = function (props) {
                                                                          className={`form-control ${
                                                                              errors.startDate && touched.startDate ? "is-invalid" : ""}`}
                                                                          required
+                                                                         filterDate={isWeekday}
+                                                                         excludeDates={[disableCustomDt]}
                                                                          selectsStart
                                                                          startDate={values.startDate}
-                                                                         endDate={values.endDate}
-                                                                            />
+                                                                         endDate={values.endDate}/>
                                                         {errors.startDate && touched.startDate ? (
                                                             <span className="invalid-feedback" role="alert">
                                                     <strong>{errors.startDate}</strong>
@@ -66,11 +72,11 @@ const MyProposalForm = function (props) {
                                                                          className={`form-control ${
                                                                              errors.endDate && touched.endDate ? "is-invalid" : ""}`}
                                                                          required
+                                                                         filterDate={isWeekday}
                                                                          selectsEnd
                                                                          startDate={values.startDate}
                                                                          endDate={values.endDate}
-                                                                         minDate={values.startDate}
-                                                                          />
+                                                                         minDate={values.startDate}/>
                                                         {errors.startDate && touched.startDate ? (
                                                             <span className="invalid-feedback" role="alert">
                                                     <strong>{errors.startDate}</strong>
@@ -79,7 +85,6 @@ const MyProposalForm = function (props) {
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div className="form-group">
                                                 <label htmlFor="numberOfDays" className="control-label ">Number of
                                                     days:</label>
@@ -125,7 +130,7 @@ const MyProposalForm = function (props) {
                                             </div>
 
                                             <div className="form-group">
-                                                <button type="submit" disabled={!(isValid && dirty) && !props.edited} className="btn btn-primary">{props.textButton}</button>
+                                                <button type="submit" className="btn btn-primary">{props.textButton}</button>
                                             </div>
                                         </Form>
                                     )}
