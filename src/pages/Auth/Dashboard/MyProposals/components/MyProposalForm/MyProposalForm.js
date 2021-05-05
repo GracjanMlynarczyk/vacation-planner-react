@@ -26,11 +26,10 @@ const MyProposalForm = function (props) {
                                 <Formik
                                     enableReinitialize={true}
                                     initialValues={props.initialValues ?? {
-                                        startDate: "",
-                                        endDate: "",
+                                        startDate: new Date().setDate(new Date().getDate() + 1),
+                                        endDate: new Date().setDate(new Date().getDate() + 1),
                                         proposalTypeId: "",
                                         comment: ""
-
                                     }}
                                     validationSchema={validationSchema}
                                     onSubmit={(values) => props.onSubmit(values)}>
@@ -42,7 +41,7 @@ const MyProposalForm = function (props) {
                                                 <div className="form-group col-md-6">
                                                     <label htmlFor="startDate" className="col-form-label">Start
                                                         date</label>
-                                                    <div className="col-md-6">
+                                                    <div>
                                                         <DatePickerField id="startDate" name="startDate"
                                                                          className={`form-control ${
                                                                              errors.startDate && touched.startDate ? "is-invalid" : ""}`}
@@ -61,7 +60,7 @@ const MyProposalForm = function (props) {
                                                 <div className="form-group col-md-6">
                                                     <label htmlFor="endDate" className="col-form-label">End date</label>
 
-                                                    <div className="col-md-6">
+                                                    <div>
                                                         <DatePickerField id="endDate" name="endDate"
                                                                          className={`form-control ${
                                                                              errors.endDate && touched.endDate ? "is-invalid" : ""}`}
