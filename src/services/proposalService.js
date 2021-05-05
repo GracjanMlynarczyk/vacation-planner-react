@@ -54,6 +54,14 @@ export const getMyProposals = function () {
         }, 300);
     });
 }
+export const addProposal = function (value) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log(value);
+            resolve(true);
+        }, 300);
+    });
+}
 
 export const deleteProposal = function (id) {
     return new Promise((resolve, reject) => {
@@ -155,6 +163,7 @@ export const getProposal = function (id) {
                     }
                 },
                 proposalType: {
+                    id: 1,
                     name: "Paid",
                 },
                 acceptedBy: {

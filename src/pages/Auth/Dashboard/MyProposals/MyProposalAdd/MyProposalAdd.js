@@ -1,13 +1,16 @@
-import InfoHolidays from "../../../../../components/UI/InfoHolidays/InfoHolidays";
-import {useState} from "react";
-import {Field, Form, Formik} from "formik";
-import DatePickerField from "../../../../../components/UI/DatePickerField/DatePickerField";
+import {useEffect, useState} from "react";
+import {createErrorNotifications, createSuccessNotifications} from "../../../../../helpers/notificationHelper";
+import {useDispatch} from "react-redux";
+import {useHistory} from "react-router-dom";
+import {addProposal, getProposal} from "../../../../../services/proposalService";
+import MyProposalForm from "../components/MyProposalForm/MyProposalForm"
 
 const MyProposalAdd = function () {
 
-    const [proposalTypes] = useState([]);
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const [proposals, setProposals] = useState([]);
     const [initialValues] = useState(null);
-    const [numberDays] = useState(0);
     const [status] = useState({
         accept: 5,
         reject: 5,
@@ -17,102 +20,40 @@ const MyProposalAdd = function () {
         used_days: 10
     });
 
+    const onSubmit = function (values) {
+        dispatch({ type: 'start-loading'})
+        addProposal(values).then(() => {
+            dispatch({ type: 'stop-loading'})
+            createSuccessNotifications('Proposal', 'Proposal added');
+            history.push('/dashboard/proposals');
+        }).catch(() => {
+            dispatch({ type: 'stop-loading'})
+            createErrorNotifications('Proposal', 'Proposal cannot add')
+        })
+    }
+
+    useEffect(() => {
+        dispatch({ type: 'start-loading'})
+        getProposal().then((response) => {
+            setProposals(response);
+            dispatch({ type: 'stop-loading'})
+        })
+
+        return () => {
+            setProposals([]);
+        }
+        //eslint-disable-next-line
+    }, [])
+
     return (
-        <div className="container">
-            <div className="row">
-                <div className="col-md-12">
-                    <div className="card">
-                        <div className="card-body">
-                            <h1 className="description">New proposal</h1>
+       <MyProposalForm
+           initialValues={initialValues}
+           status={status}
+           onSubmit={onSubmit}
+           textButton="New"
+           edited={false}
 
-                            <InfoHolidays status={status}/>
-
-                            <div className="col-md-12">
-
-                                <Formik
-                                    enableReinitialize={true}
-                                    initialValues={initialValues ?? {
-                                        startDate: "",
-                                        endDate: "",
-                                        proposalTypeId: "",
-                                        comment: ""
-
-                                    }}
-                                    onSubmit={(values) => {
-                                        console.log(values);
-                                    }}>
-                                    {({ errors, touched,isValid, dirty}) => (
-                                        <Form>
-
-                                            <div className="row">
-                                                <div className="form-group col-md-6">
-                                                    <label htmlFor="startDate" className="col-form-label">Start date</label>
-
-                                                    <div className="col-md-6">
-                                                        <DatePickerField id="startDate" name="startDate" className={`form-control ${
-                                                            errors.startDate && touched.startDate ? "is-invalid" : ""}`} />
-                                                    </div>
-                                                </div>
-                                                <div className="form-group col-md-6">
-                                                    <label htmlFor="endDate" className="col-form-label">End date</label>
-
-                                                    <div className="col-md-6">
-                                                        <DatePickerField id="endDate" name="endDate" className={`form-control ${
-                                                            errors.endDate && touched.endDate ? "is-invalid" : ""}`} />
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className="form-group">
-                                                <label htmlFor="numberOfDays" className="control-label ">Number of days:</label>
-                                                <span id="numberOfDays" className="val">{numberDays}</span>
-                                            </div>
-
-                                            <div className="form-group">
-                                                <label htmlFor="proposalTypeId" className="col-form-label">Proposal type</label>
-                                                <div>
-                                                    <Field as="select" id="proposalTypeId" name="proposalTypeId" className={`form-control ${
-                                                        errors.ownerId && touched.ownerId ? "is-invalid" : ""
-                                                    }`} required>
-                                                        <option value={""}>Open this select menu</option>
-                                                        {proposalTypes.map(proposalType => (
-                                                            <option value={proposalType.id}>{proposalType.name}</option>
-                                                        ))}
-                                                    </Field>
-                                                    {errors.ownerId && touched.ownerId ? (
-                                                        <span className="invalid-feedback" role="alert">
-                                                    <strong>{errors.ownerId}</strong>
-                                                </span>
-                                                    ) : null}
-                                                </div>
-                                            </div>
-
-                                            <div className="form-group">
-                                                <label htmlFor="comment" className="col-form-label">Comment</label>
-                                                <div>
-                                                    <Field as="textarea" rows="7" id="comment" name="comment" className={`form-control ${
-                                                        errors.comment && touched.comment ? "is-invalid" : ""
-                                                    }`}  />
-                                                    {errors.comment && touched.comment ? (
-                                                        <span className="invalid-feedback" role="alert">
-                                                    <strong>{errors.comment}</strong>
-                                                </span>
-                                                    ) : null}
-                                                </div>
-                                            </div>
-
-                                            <div className="form-group">
-                                                <button type="submit" disabled={!(isValid && dirty)} className="btn btn-primary">Create proposal</button>
-                                            </div>
-                                        </Form>
-                                    )}
-                                </Formik>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+       />
     );
 }
 
