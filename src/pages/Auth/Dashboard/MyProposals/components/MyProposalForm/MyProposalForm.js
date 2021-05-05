@@ -35,7 +35,7 @@ const MyProposalForm = function (props) {
                                     validationSchema={validationSchema}
                                     onSubmit={(values) => props.onSubmit(values)}>
 
-                                    {({errors, touched, isValid, dirty}) => (
+                                    {({errors, touched, isValid, dirty,values}) => (
                                         <Form>
 
                                             <div className="row">
@@ -47,7 +47,10 @@ const MyProposalForm = function (props) {
                                                                          className={`form-control ${
                                                                              errors.startDate && touched.startDate ? "is-invalid" : ""}`}
                                                                          required
-                                                                         selectsStart/>
+                                                                         selectsStart
+                                                                         startDate={values.startDate}
+                                                                         endDate={values.endDate}
+                                                                            />
                                                         {errors.startDate && touched.startDate ? (
                                                             <span className="invalid-feedback" role="alert">
                                                     <strong>{errors.startDate}</strong>
@@ -63,7 +66,11 @@ const MyProposalForm = function (props) {
                                                                          className={`form-control ${
                                                                              errors.endDate && touched.endDate ? "is-invalid" : ""}`}
                                                                          required
-                                                                         selectsEnd/>
+                                                                         selectsEnd
+                                                                         startDate={values.startDate}
+                                                                         endDate={values.endDate}
+                                                                         minDate={values.startDate}
+                                                                          />
                                                         {errors.startDate && touched.startDate ? (
                                                             <span className="invalid-feedback" role="alert">
                                                     <strong>{errors.startDate}</strong>

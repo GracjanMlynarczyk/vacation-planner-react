@@ -130,7 +130,7 @@ const Register = function () {
                                         <div className="form-group row">
                                             <label htmlFor="beginningOfEmployment" className="col-md-4 col-form-label text-md-right">Beginning of employment</label>
                                             <div className="col-md-6">
-                                                <DatePickerField id="beginningOfEmployment" name="beginningOfEmployment" className={`form-control ${
+                                                <DatePickerField showYearDropdown id="beginningOfEmployment" name="beginningOfEmployment" className={`form-control ${
                                                     errors.beginningOfEmployment && touched.beginningOfEmployment ? "is-invalid" : ""
                                                 }`} />
                                             </div>

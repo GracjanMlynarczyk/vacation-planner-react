@@ -1,18 +1,32 @@
 import logo from '../../../assets/images/logo2.png'
-import { NavLink, Link } from "react-router-dom";
+import {NavLink, Link, useHistory} from "react-router-dom";
 import useUser from "../../../hooks/useUser";
+import {logout} from "../../../services/authService";
+import {createSuccessNotifications} from "../../../helpers/notificationHelper";
+import {useDispatch} from "react-redux";
 
 const Menu = function () {
     const [ user, setUser ] = useUser();
+    const history = useHistory();
+    const dispatch = useDispatch();
 
-    function logout(e) {
+    function logoutHandler(e) {
         e.preventDefault();
-        setUser(null);
+        dispatch({type: 'start-loading'});
+        logout().then(() => {
+            createSuccessNotifications("Auth", "Logouted")
+            setUser(null);
+            history.push("/");
+            dispatch({type: 'stop-loading'});
+        })
     }
 
-    function login(e) {
+    function loginHandler(e) {
         e.preventDefault();
-        setUser("dfsdfsdf");
+        logout().then((response) => {
+            setUser("dfsdfsdf");
+            history.push("/");
+        })
     }
 
     return (
@@ -86,7 +100,7 @@ const Menu = function () {
                                             <Link to="/dashboard/panel/details" className="dropdown-item">
                                                 User details
                                             </Link>
-                                            <a onClick={logout} className="dropdown-item" href="/#">
+                                            <a onClick={logoutHandler} className="dropdown-item" href="/#">
                                                 Logout
                                             </a>
                                         </div>
@@ -95,7 +109,7 @@ const Menu = function () {
                             ) : (
                                 <>
                                     <li className="nav-item">
-                                        <a onClick={login} className="nav-link" href="/#">Login</a>
+                                        <a onClick={loginHandler} className="nav-link" href="/#">Login</a>
                                     </li>
                                     <li className="nav-item">
                                         <Link className="nav-link" to="/register">Register</Link>
