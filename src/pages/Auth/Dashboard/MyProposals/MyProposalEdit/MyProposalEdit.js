@@ -10,7 +10,6 @@ const MyProposalEdit = function () {
     const {id} = useParams();
     const dispatch = useDispatch();
     const history = useHistory();
-    const [proposal, setProposal] = useState([]);
     const [initialValues, setInitialValues] = useState(null);
     const [status] = useState({
         accept: 5,
@@ -38,10 +37,9 @@ const MyProposalEdit = function () {
         Promise.all([
             getProposal(id)
         ]).then(([proposal]) => {
-            setProposal(proposal)
             setInitialValues({
-                startDate: proposal.startDate,
-                endDate: proposal.endDate,
+                startDate: Date.parse(proposal.startDate),
+                endDate: Date.parse(proposal.endDate),
                 proposalTypeId: proposal.proposalType.id,
                 comment: proposal.comment,
             });
@@ -53,6 +51,9 @@ const MyProposalEdit = function () {
         }
         //eslint-disable-next-line
     }, [])
+
+    if (initialValues === null) return null
+
     return (
         <MyProposalForm
             initialValues={initialValues}

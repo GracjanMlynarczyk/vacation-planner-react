@@ -2,16 +2,13 @@ import {Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 import InfoHolidays from "../../../../../../components/UI/InfoHolidays/InfoHolidays";
 import DatePickerField from "../../../../../../components/UI/DatePickerField/DatePickerField";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {getFreeDays} from "../../../../../../services/freeDayService";
 
 const MyProposalForm = function (props) {
 
     const [freeDays, setFreeDays] = useState([]);
-
-    getFreeDays.then((response) => {
-        setFreeDays(response);
-    })
+    const [holidays, setHolidays] = useState([]);
 
     const validationSchema = Yup.object().shape({
         startDate: Yup.string().required('Start date is required'),
@@ -22,11 +19,16 @@ const MyProposalForm = function (props) {
         const day = date.getDay();
         return day !== 0 && day !== 6;
     };
-    const holidays = [
-        freeDays.map(freeDay => [
-            new Date(2021,4,7)
-        ])
-    ]
+
+    useEffect(() => {
+        getFreeDays().then( response => {
+            setFreeDays(response);
+            setHolidays(freeDays.map(freeDay => [
+                new Date(2021,4,7)
+            ]));
+        })
+            //eslint-disable-next-line
+    }, []);
 
     return (
         <div className="container">
@@ -53,7 +55,6 @@ const MyProposalForm = function (props) {
 
                                     {({errors, touched, isValid, dirty,values}) => (
                                         <Form>
-                                            {console.log(freeDays())}
                                             <div className="row">
                                                 <div className="form-group col-md-6">
                                                     <label htmlFor="startDate" className="col-form-label">Start

@@ -1,15 +1,14 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {createErrorNotifications, createSuccessNotifications} from "../../../../../helpers/notificationHelper";
 import {useDispatch} from "react-redux";
 import {useHistory} from "react-router-dom";
-import {addProposal, getProposal} from "../../../../../services/proposalService";
+import {addProposal} from "../../../../../services/proposalService";
 import MyProposalForm from "../components/MyProposalForm/MyProposalForm"
 
 const MyProposalAdd = function () {
 
     const dispatch = useDispatch();
     const history = useHistory();
-    const [proposals, setProposals] = useState([]);
     const [initialValues] = useState(null);
     const [status] = useState({
         accept: 5,
@@ -31,19 +30,6 @@ const MyProposalAdd = function () {
             createErrorNotifications('Proposal', 'Proposal cannot add')
         })
     }
-
-    useEffect(() => {
-        dispatch({ type: 'start-loading'})
-        getProposal().then((response) => {
-            setProposals(response);
-            dispatch({ type: 'stop-loading'})
-        })
-
-        return () => {
-            setProposals([]);
-        }
-        //eslint-disable-next-line
-    }, [])
 
     return (
        <MyProposalForm
