@@ -3,7 +3,6 @@ import { useField, useFormikContext } from "formik";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./style.css";
-import {getFreeDays} from "../../../services/freeDayService";
 
 export const DatePickerField = ({ ...props }) => {
     const { setFieldValue } = useFormikContext();
@@ -12,7 +11,6 @@ export const DatePickerField = ({ ...props }) => {
         const day = date.getDay();
         return day !== 0 && day !== 6;
     };
-    getFreeDays()
     return (
         <DatePicker
             {...field}
