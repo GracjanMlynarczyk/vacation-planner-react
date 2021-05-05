@@ -15,6 +15,13 @@ export const getFreeDays = function() {
                     month: 3,
                     year: null,
                     repeatable: true
+                },
+                {
+                    id: 3,
+                    day: 21,
+                    month: 6,
+                    year: 2021,
+                    repeatable: false
                 }
             ]);
         }, 300);
