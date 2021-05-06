@@ -6,6 +6,7 @@ import {createErrorNotifications, createSuccessNotifications} from "../../../../
 import {confirmModal} from "../../../../helpers/confirmModal";
 import {Link} from "react-router-dom";
 import InfoHolidays from "../../../../components/UI/InfoHolidays/InfoHolidays";
+import {waiting} from "../../../../helpers/constants/proposalStatusConstants";
 
 const MyProposals = function () {
 
@@ -96,7 +97,7 @@ const MyProposals = function () {
             transform: (value, idx, row) => (
                 <>
                     <Link to={`/dashboard/proposals/${row.id}`} className="btn btn-primary m-1">Show</Link>
-                    {row['proposalStatus.name'] === 'Waiting' ? (
+                    {row['proposalStatus.name'] === waiting ? (
                         <>
                             <Link to={`/dashboard/proposals/edit/${row.id}`} className="btn btn-secondary m-1" style={{ cursor: 'pointer' }}>Edit</Link>
                             <button className="btn btn-danger m-1" onClick={() => deleteProposalConfirm(row.id)} style={{ cursor: 'pointer' }}>Delete</button>
