@@ -114,9 +114,9 @@ const MyProposalForm = function (props) {
                                                                errors.ownerId && touched.ownerId ? "is-invalid" : ""
                                                            }`} required>
                                                         <option value={""}>Open this select menu</option>
-                                                        {proposalType ? (proposalType.map(
-                                                            proposal => (<option key={proposal.id} value={proposal.id}>{`${proposal.name}`}
-                                                            </option>))) : null}
+                                                        {proposalType ? (proposalType.map(proposal => (
+                                                            <option key={proposal.id} value={proposal.id}>{`${proposal.name}`}</option>)))
+                                                            : null}
                                                     </Field>
                                                     {errors.ownerId && touched.ownerId ? (
                                                         <span className="invalid-feedback" role="alert">

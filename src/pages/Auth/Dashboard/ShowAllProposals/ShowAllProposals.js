@@ -86,7 +86,7 @@ const ShowAllProposals = function () {
     }
 
     return (
-        <div className="container-fluid">
+        <div className="container">
             <div className="card">
                 <div className="card-body">
                     <SmartTable
