@@ -23,9 +23,9 @@ const MyProposalForm = function (props) {
     useEffect(() => {
         getFreeDays().then( response => {
             setFreeDays(response);
-            setHolidays(freeDays.map(freeDay => [
-                new Date(2021,4,7)
-            ]));
+            setHolidays([
+                new Date(2021,5,7)
+            ]);
         })
             //eslint-disable-next-line
     }, []);
