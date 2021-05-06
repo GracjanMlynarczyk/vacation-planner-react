@@ -5,11 +5,13 @@ import DatePickerField from "../../../../../../components/UI/DatePickerField/Dat
 import {useEffect, useState} from "react";
 import {getFreeDays} from "../../../../../../services/freeDayService";
 import {getProposalTypes} from "../../../../../../services/proposalService";
+import {useDispatch} from "react-redux";
 
 const MyProposalForm = function (props) {
 
     const [freeDays, setFreeDays] = useState([]);
     const [proposalType, setProposalType] = useState(null);
+    const dispatch = useDispatch();
 
     const validationSchema = Yup.object().shape({
         startDate: Yup.string().required('Start date is required'),
@@ -22,14 +24,17 @@ const MyProposalForm = function (props) {
     };
 
     useEffect(() => {
-        getFreeDays().then( response => {
-            setFreeDays(response.map(freeDay =>
+        dispatch({type: 'start-loading'})
+        Promise.all([
+            getFreeDays(),
+            getProposalTypes()
+        ]).then(([freeDays, proposalTypes]) => {
+            setFreeDays(freeDays.map(freeDay =>
                 new Date(freeDay.year,freeDay.month-1,freeDay.day)
             ));
-        })
-        getProposalTypes().then((response) => {
-            setProposalType(response);
-        })
+            setProposalType(proposalTypes);
+            dispatch({type: 'stop-loading'})
+        });
             //eslint-disable-next-line
     }, []);
 
@@ -111,16 +116,16 @@ const MyProposalForm = function (props) {
                                                 <div>
                                                     <Field as="select" id="proposalTypeId" name="proposalTypeId"
                                                            className={`form-control ${
-                                                               errors.ownerId && touched.ownerId ? "is-invalid" : ""
+                                                               errors.proposalTypeId && touched.proposalTypeId ? "is-invalid" : ""
                                                            }`} required>
                                                         <option value={""}>Open this select menu</option>
                                                         {proposalType ? (proposalType.map(proposal => (
                                                             <option key={proposal.id} value={proposal.id}>{`${proposal.name}`}</option>)))
                                                             : null}
                                                     </Field>
-                                                    {errors.ownerId && touched.ownerId ? (
+                                                    {errors.proposalTypeId && touched.proposalTypeId ? (
                                                         <span className="invalid-feedback" role="alert">
-                                                    <strong>{errors.ownerId}</strong>
+                                                    <strong>{errors.proposalTypeId}</strong>
                                                 </span>
                                                     ) : null}
                                                 </div>
