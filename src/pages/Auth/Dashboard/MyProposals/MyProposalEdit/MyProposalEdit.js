@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {createErrorNotifications, createSuccessNotifications} from "../../../../../helpers/notificationHelper";
 import {useDispatch} from "react-redux";
 import {useHistory, useParams} from "react-router-dom";
-import {editProposal, getProposal, getProposalTypes} from "../../../../../services/proposalService";
+import {editProposal, getProposal} from "../../../../../services/proposalService";
 import MyProposalForm from "../components/MyProposalForm/MyProposalForm"
 
 const MyProposalEdit = function () {

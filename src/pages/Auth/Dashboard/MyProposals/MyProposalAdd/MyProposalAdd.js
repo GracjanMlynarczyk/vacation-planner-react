@@ -1,8 +1,8 @@
-import {useEffect, useState} from "react";
+import { useState} from "react";
 import {createErrorNotifications, createSuccessNotifications} from "../../../../../helpers/notificationHelper";
 import {useDispatch} from "react-redux";
 import {useHistory} from "react-router-dom";
-import {addProposal, getProposalTypes} from "../../../../../services/proposalService";
+import {addProposal} from "../../../../../services/proposalService";
 import MyProposalForm from "../components/MyProposalForm/MyProposalForm"
 
 const MyProposalAdd = function () {
