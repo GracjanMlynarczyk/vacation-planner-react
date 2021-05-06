@@ -4,11 +4,12 @@ import InfoHolidays from "../../../../../../components/UI/InfoHolidays/InfoHolid
 import DatePickerField from "../../../../../../components/UI/DatePickerField/DatePickerField";
 import {useEffect, useState} from "react";
 import {getFreeDays} from "../../../../../../services/freeDayService";
+import {getProposalTypes} from "../../../../../../services/proposalService";
 
 const MyProposalForm = function (props) {
 
     const [freeDays, setFreeDays] = useState([]);
-    const [holidays, setHolidays] = useState([]);
+    const [proposalType, setProposalType] = useState(null);
 
     const validationSchema = Yup.object().shape({
         startDate: Yup.string().required('Start date is required'),
@@ -22,10 +23,12 @@ const MyProposalForm = function (props) {
 
     useEffect(() => {
         getFreeDays().then( response => {
-            setFreeDays(response);
-            setHolidays([
-                new Date(2021,5,7)
-            ]);
+            setFreeDays(response.map(freeDay =>
+                new Date(freeDay.year,freeDay.month-1,freeDay.day)
+            ));
+        })
+        getProposalTypes().then((response) => {
+            setProposalType(response);
         })
             //eslint-disable-next-line
     }, []);
@@ -41,12 +44,11 @@ const MyProposalForm = function (props) {
                             <InfoHolidays status={props.status}/>
 
                             <div className="col-md-12">
-
                                 <Formik
                                     enableReinitialize={true}
                                     initialValues={props.initialValues ?? {
                                         startDate: new Date().setDate(new Date().getDate() + 1),
-                                        endDate: new Date().setDate(new Date().getDate() + 1),
+                                        endDate: "",
                                         proposalTypeId: "",
                                         comment: ""
                                     }}
@@ -65,10 +67,11 @@ const MyProposalForm = function (props) {
                                                                              errors.startDate && touched.startDate ? "is-invalid" : ""}`}
                                                                          required
                                                                          filterDate={isWeekday}
-                                                                         excludeDates={holidays}
+                                                                         excludeDates={freeDays}
                                                                          selectsStart
                                                                          startDate={values.startDate}
-                                                                         endDate={values.endDate}/>
+                                                                         endDate={values.endDate}
+                                                                         maxDate={values.endDate}/>
                                                         {errors.startDate && touched.startDate ? (
                                                             <span className="invalid-feedback" role="alert">
                                                     <strong>{errors.startDate}</strong>
@@ -104,19 +107,16 @@ const MyProposalForm = function (props) {
                                             </div>
 
                                             <div className="form-group">
-                                                <label htmlFor="proposalTypeId" className="col-form-label">Proposal
-                                                    type</label>
+                                                <label htmlFor="proposalTypeId" className="col-form-label">Proposal type</label>
                                                 <div>
                                                     <Field as="select" id="proposalTypeId" name="proposalTypeId"
                                                            className={`form-control ${
                                                                errors.ownerId && touched.ownerId ? "is-invalid" : ""
                                                            }`} required>
                                                         <option value={""}>Open this select menu</option>
-                                                        <option value="1"> Paid</option>
-                                                        <option value="2"> Unpaid</option>
-                                                        {/*{proposalTypes.map(proposalType => (*/}
-                                                        {/*    <option value={proposalType.id}>{proposalType.name}</option>*/}
-                                                        {/*))}*/}
+                                                        {proposalType ? (proposalType.map(
+                                                            proposal => (<option key={proposal.id} value={proposal.id}>{`${proposal.name}`}
+                                                            </option>))) : null}
                                                     </Field>
                                                     {errors.ownerId && touched.ownerId ? (
                                                         <span className="invalid-feedback" role="alert">

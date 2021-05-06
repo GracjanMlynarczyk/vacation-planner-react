@@ -146,6 +146,23 @@ export const getAcceptedProposals = function () {
     });
 }
 
+export const getProposalTypes = function () {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve([
+                {
+                    id: 1,
+                    name: "Paid",
+                },
+                {
+                    id: 2,
+                    name: "Unpaid",
+                },
+            ]);
+        }, 300);
+    });
+}
+
 
 export const getProposal = function (id) {
     return new Promise((resolve, reject) => {

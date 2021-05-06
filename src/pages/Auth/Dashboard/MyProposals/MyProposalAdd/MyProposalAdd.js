@@ -1,15 +1,14 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {createErrorNotifications, createSuccessNotifications} from "../../../../../helpers/notificationHelper";
 import {useDispatch} from "react-redux";
 import {useHistory} from "react-router-dom";
-import {addProposal} from "../../../../../services/proposalService";
+import {addProposal, getProposalTypes} from "../../../../../services/proposalService";
 import MyProposalForm from "../components/MyProposalForm/MyProposalForm"
 
 const MyProposalAdd = function () {
 
     const dispatch = useDispatch();
     const history = useHistory();
-    const [initialValues] = useState(null);
     const [status] = useState({
         accept: 5,
         reject: 5,
@@ -33,7 +32,6 @@ const MyProposalAdd = function () {
 
     return (
        <MyProposalForm
-           initialValues={initialValues}
            status={status}
            onSubmit={onSubmit}
            textButton="Add"

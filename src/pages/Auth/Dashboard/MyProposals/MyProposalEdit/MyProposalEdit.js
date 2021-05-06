@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {createErrorNotifications, createSuccessNotifications} from "../../../../../helpers/notificationHelper";
 import {useDispatch} from "react-redux";
 import {useHistory, useParams} from "react-router-dom";
-import {editProposal, getProposal} from "../../../../../services/proposalService";
+import {editProposal, getProposal, getProposalTypes} from "../../../../../services/proposalService";
 import MyProposalForm from "../components/MyProposalForm/MyProposalForm"
 
 const MyProposalEdit = function () {
@@ -35,7 +35,7 @@ const MyProposalEdit = function () {
     useEffect(() => {
         dispatch({ type: 'start-loading'})
         Promise.all([
-            getProposal(id)
+            getProposal(id),
         ]).then(([proposal]) => {
             setInitialValues({
                 startDate: Date.parse(proposal.startDate),
