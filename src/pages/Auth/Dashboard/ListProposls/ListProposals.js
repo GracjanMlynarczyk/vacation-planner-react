@@ -5,6 +5,7 @@ import {createErrorNotifications, createSuccessNotifications} from "../../../../
 import {Link} from "react-router-dom";
 import InfoHolidays from "../../../../components/UI/InfoHolidays/InfoHolidays";
 import SmartTable from "../../../../components/UI/SmartTable/SmartTable";
+import {waiting} from "../../../../helpers/constants/proposalStatusConstants";
 
 const ListProposals = function () {
     const [data, setData] = useState([]);
@@ -103,7 +104,7 @@ const ListProposals = function () {
             transform: (value, idx, row) => (
                 <>
                     <Link to={`/dashboard/proposals/${row.id}`} className="btn btn-primary m-1">Show</Link>
-                    {row['proposalStatus.name'] === 'Waiting' ? (
+                    {row['proposalStatus.name'] === waiting ? (
                         <>
                             <button className="btn btn-secondary m-1" onClick={() => handleChangeStatusProposal(row.id, 'Accepted')} style={{ cursor: 'pointer' }}>Accept</button>
                             <button className="btn btn-warning m-1" onClick={() => handleChangeStatusProposal(row.id, 'Rejected')} style={{ cursor: 'pointer' }}>Reject</button>
